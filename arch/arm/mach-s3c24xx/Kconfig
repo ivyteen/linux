@@ -528,6 +528,16 @@ config SMDK2440_CPU2440
 	default y if ARCH_S3C2440
 	select S3C2440_XTAL_16934400
 
+config MACH_WILTEK_GBOX
+	bool "Wiltek GBOX development board"
+	select S3C2440_XTAL_16934400
+	select S3C24XX_SMDK
+	select S3C_DEV_NAND
+	select S3C_DEV_USB_HOST
+	select S3C_SETUP_CAMIF
+	help
+	  Say Y here to select support for the Wiltek GBOX
+
 endif	# CPU_S3C2440
 
 if CPU_S3C2442
