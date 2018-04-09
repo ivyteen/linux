@@ -64,6 +64,7 @@
 
 
 #define GBOX_UART_SUPPORT
+#define GBOX_LED_SUPPORT
 //#define GBOX_NET_SUPPORT
 //#define GBOX_USB_USC_SUPPORT
 //#define GBOX_LCD_SUPPORT
@@ -430,31 +431,35 @@ static struct platform_device gbox_button_device = {
 #ifdef GBOX_LED_SUPPORT
 /* LEDS */
 
+static struct s3c24xx_led_platdata gbox_led0_pdata = {
+	.name		= "led0",
+	.gpio		= S3C2410_GPB(7),
+	//.flags		= S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
+	.flags		= S3C24XX_LEDF_ACTLOW,
+	.def_trigger	= "",
+};
+
 static struct s3c24xx_led_platdata gbox_led1_pdata = {
 	.name		= "led1",
-	.gpio		= S3C2410_GPB(5),
-	.flags		= S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
-	.def_trigger	= "heartbeat",
+	.gpio		= S3C2410_GPB(8),
+	//.flags		= S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
+	.flags		= S3C24XX_LEDF_ACTLOW,
+	.def_trigger	= "",
 };
 
 static struct s3c24xx_led_platdata gbox_led2_pdata = {
 	.name		= "led2",
-	.gpio		= S3C2410_GPB(6),
-	.flags		= S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
-	.def_trigger	= "nand-disk",
+	.gpio		= S3C2410_GPB(9),
+	//.flags		= S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
+	.flags		= S3C24XX_LEDF_ACTLOW,
+	.def_trigger	= "",
 };
 
 static struct s3c24xx_led_platdata gbox_led3_pdata = {
 	.name		= "led3",
-	.gpio		= S3C2410_GPB(7),
-	.flags		= S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
-	.def_trigger	= "mmc0",
-};
-
-static struct s3c24xx_led_platdata gbox_led4_pdata = {
-	.name		= "led4",
-	.gpio		= S3C2410_GPB(8),
-	.flags		= S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
+	.gpio		= S3C2410_GPB(10),
+	//.flags		= S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
+	.flags		= S3C24XX_LEDF_ACTLOW,
 	.def_trigger	= "",
 };
 
@@ -462,6 +467,14 @@ static struct s3c24xx_led_platdata gbox_led_backlight_pdata = {
 	.name		= "backlight",
 	.gpio		= S3C2410_GPG(4),
 	.def_trigger	= "backlight",
+};
+
+static struct platform_device gbox_led0 = {
+	.name		= "s3c24xx_led",
+	.id		= 0,
+	.dev		= {
+		.platform_data	= &gbox_led0_pdata,
+	},
 };
 
 static struct platform_device gbox_led1 = {
@@ -485,14 +498,6 @@ static struct platform_device gbox_led3 = {
 	.id		= 3,
 	.dev		= {
 		.platform_data	= &gbox_led3_pdata,
-	},
-};
-
-static struct platform_device gbox_led4 = {
-	.name		= "s3c24xx_led",
-	.id		= 4,
-	.dev		= {
-		.platform_data	= &gbox_led4_pdata,
 	},
 };
 
@@ -582,10 +587,10 @@ static struct platform_device *gbox_devices[] __initdata = {
 #endif
 
 #ifdef GBOX_LED_SUPPORT
+	&gbox_led0,
 	&gbox_led1,
 	&gbox_led2,
 	&gbox_led3,
-	&gbox_led4,
 #endif
 
 #ifdef GBOX_KEY_SUPPORT
